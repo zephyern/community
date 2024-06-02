@@ -9,11 +9,10 @@ load("cache.star", "cache")
 load("encoding/base64.star", "base64")
 load("http.star", "http")
 load("render.star", "render")
-load("schema.star", "schema")
 
 TTL_SECONDS = 30
 
-def main(config):
+def main():
     affirmation = get_affirmation()
     image = base64.decode(get_affirmation_image())
 
@@ -50,6 +49,8 @@ def get_affirmation():
         if response.status_code != 200:
             fail("Failed to retrieve affirmation: %d - %s" % (response.status_code, response.body()))
         affirmation = response.json()["affirmation"]
+
+        # TODO: Determine if this cache call can be converted to the new HTTP cache.
         cache.set("affirmation", affirmation, ttl_seconds = TTL_SECONDS)
     return affirmation
 
@@ -60,5 +61,7 @@ def get_affirmation_image():
         if response.status_code != 200:
             fail("Failed to retrieve image: %d - %s" % (response.status_code, response.body()))
         image = base64.encode(response.body())
+
+        # TODO: Determine if this cache call can be converted to the new HTTP cache.
         cache.set("affirmation_image", image, ttl_seconds = TTL_SECONDS)
     return image

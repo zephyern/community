@@ -5,13 +5,13 @@ Description: Display recent orders for your Shopify store.
 Author: Shopify
 """
 
+load("animation.star", "animation")
+load("cache.star", "cache")
+load("encoding/base64.star", "base64")
+load("encoding/json.star", "json")
+load("http.star", "http")
 load("render.star", "render")
 load("schema.star", "schema")
-load("http.star", "http")
-load("animation.star", "animation")
-load("encoding/base64.star", "base64")
-load("cache.star", "cache")
-load("encoding/json.star", "json")
 
 # CONFIG
 SHOPIFY_COUNTER_API_HOST = "https://www.shopcounter.app"
@@ -214,6 +214,8 @@ def api_fetch(counter_id, request_config):
             print("Counter API request failed with status {}".format(rep.status_code))
             return None
         api_response = rep.json()
+
+        # TODO: Determine if this cache call can be converted to the new HTTP cache.
         cache.set(cache_key, json.encode(api_response), ttl_seconds = CACHE_TTL)
         return api_response
 
@@ -276,7 +278,7 @@ def int_to_hex(decimal):
     i = int(decimal)
     if i == 0:
         return "00"
-    for k in range(0, 100):
+    for _ in range(0, 100):
         if i <= 0:
             break
         hex = HEX_DIGITS[i % 16] + hex
@@ -333,11 +335,11 @@ def main(config):
     logo = api_config.get("logo", IMAGE_RECENT_ORDERS)
 
     return render.Root(
-        delay = 3,
+        delay = 100,
         child = render.Column(
             expanded = True,
             children = [
-                render_header_row(base64.decode(logo), "new orders\this month", text_color, background_color),
+                render_header_row(base64.decode(logo), text_color, background_color),
                 render.Box(
                     width = 64,
                     height = 1,
@@ -389,7 +391,7 @@ def render_marquee(orders):
         ],
     )
 
-def render_header_row(image, title, text_color, background_color):
+def render_header_row(image, text_color, background_color):
     return render.Box(
         child = render.Row(
             children = [

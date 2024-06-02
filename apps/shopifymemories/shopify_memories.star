@@ -5,13 +5,13 @@ Description: Showcase some of your store’s most significant memories like your
 Author: Shopify
 """
 
+load("animation.star", "animation")
+load("cache.star", "cache")
+load("encoding/base64.star", "base64")
+load("encoding/json.star", "json")
+load("http.star", "http")
 load("render.star", "render")
 load("schema.star", "schema")
-load("http.star", "http")
-load("animation.star", "animation")
-load("encoding/base64.star", "base64")
-load("cache.star", "cache")
-load("encoding/json.star", "json")
 
 # CONFIG
 SHOPIFY_COUNTER_API_HOST = "https://www.shopcounter.app"
@@ -214,6 +214,8 @@ def api_fetch(counter_id, request_config):
             print("Counter API request failed with status {}".format(rep.status_code))
             return None
         api_response = rep.json()
+
+        # TODO: Determine if this cache call can be converted to the new HTTP cache.
         cache.set(cache_key, json.encode(api_response), ttl_seconds = CACHE_TTL)
         return api_response
 
@@ -277,7 +279,6 @@ def main(config):
         return error_view()
 
     api_data = api_response["data"]
-    api_config = api_response["config"]
     text_color = config.get("textColor")
     background_color = config.get("backgroundColor")
     title = api_data["title"]
@@ -323,7 +324,7 @@ def main(config):
                 animation.Transformation(
                     child = render_memory_frame(content, text_color, background_color),
                     duration = 0,
-                    delay = 240,
+                    delay = 200,
                     keyframes = [
                         animation.Keyframe(
                             percentage = 0.0,

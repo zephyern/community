@@ -5,13 +5,13 @@ Description: Displays a random trivia question with category and difficulty.
 Author: Jack Sherbal
 """
 
-load("render.star", "render")
-load("http.star", "http")
-load("encoding/json.star", "json")
 load("cache.star", "cache")
-load("re.star", "re")
-load("humanize.star", "humanize")
 load("encoding/base64.star", "base64")
+load("encoding/json.star", "json")
+load("http.star", "http")
+load("humanize.star", "humanize")
+load("re.star", "re")
+load("render.star", "render")
 load("schema.star", "schema")
 
 NUM_QUESTIONS = 100
@@ -31,8 +31,11 @@ def get_data():
 
         body = rep.body()
         question_index = 0
+
+        # TODO: Determine if this cache call can be converted to the new HTTP cache.
         cache.set("questions", base64.encode(body), ttl_seconds = CACHE_TTL_SECONDS)
 
+    # TODO: Determine if this cache call can be converted to the new HTTP cache.
     cache.set("question_index", str(question_index), ttl_seconds = CACHE_TTL_SECONDS)
 
     return json.decode(body)[question_index % NUM_QUESTIONS]

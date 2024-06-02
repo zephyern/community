@@ -5,12 +5,11 @@ Description: The app shows today's nameday names in Sweden.
 Author: y34752
 """
 
+load("cache.star", "cache")
 load("encoding/json.star", "json")
+load("http.star", "http")
 load("render.star", "render")
 load("schema.star", "schema")
-load("re.star", "re")
-load("http.star", "http")
-load("cache.star", "cache")
 
 def getlistasstring(listin):
     ref = ""
@@ -34,6 +33,8 @@ def main(config):
         if rep.status_code != 200:
             fail("Todays name request failed with status:", rep.status_code)
         rep = rep.json()
+
+        # TODO: Determine if this cache call can be converted to the new HTTP cache.
         cache.set("todaysnames", json.encode(rep), ttl_seconds = 120)
         namelist = rep["dagar"][0]["namnsdag"]
         names = getlistasstring(namelist)
