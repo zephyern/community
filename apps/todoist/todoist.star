@@ -53,8 +53,8 @@ NO_TASKS_CONTENT = "No Tasks :)"
 
 TODOIST_URL = "https://api.todoist.com/rest/v2/tasks"
 
-OAUTH2_CLIENT_ID = secret.decrypt("AV6+xWcE3uxifd70n+JncXgagNue2eYtPYP05tbS77/hAd//mp4OQfMp+easxFROFLbCWsen/FCCDIzz8y5huFcAfV0hdyGL3mTGWaoUO2tVBvUUtGqPbOfb3HdJxMjuMb7C1fDFNqhdXhfJmo+UgRzRYzVZ/Q/C/sSl7U25DOrtKqhRs8I=")
-OAUTH2_CLIENT_SECRET = secret.decrypt("AV6+xWcEYGPbL6d105xHQ68RZWY/KSrCK/ivqz2Y2AkrVuPO9iUFkYXBqoJs4phKRdeh2QxHjjGTuwQ7RakOEPrER+2VACdGHiiytCIpMZ5Qst1PeuMT5NECKqmHhW73MwReMBtvyPl0SbjdF8XijqzhK/YvcDTwVOdZZALaj+3dvGnqANk=")
+OAUTH2_CLIENT_ID = secret.decrypt("AV6+xWcEUOwEpNv5Vn/Coy6B/SnuptrA60tHR7jbVeT9dQLQB4V5CGlOx66GgcqXskc7t4cWoOH7WoTHTIo0gsoz5V+5WcfUCux96fsiB5Ge39UVXLuW/z4dF9S0cHE95xdQH1GlNz3DXqd6zhNeO/7Lvj2Mc+2tH+C8744EOytMDiMvQ/c=")
+OAUTH2_CLIENT_SECRET = secret.decrypt("AV6+xWcER7v3TINY0cQYhjRa28LOMhbLiSLo7cLKhisGf7mhZI7Py98s4whuqaZxCqya1OS12NDRMWACweNU+o0GNiMfHomvQnDElUQMdNIS2bsydB9wEbkQvapceyoGlmMPnB0RqFhnHstOnecRjlL0fJDHNmU47D7e2/53+j4s2vj/qKk=")
 
 def main(config):
     token = config.get("auth") or config.get("dev_api_key")
